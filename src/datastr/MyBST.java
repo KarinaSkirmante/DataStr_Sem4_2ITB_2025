@@ -194,10 +194,118 @@ public class MyBST <Ttype> {
 		
 		
 	}
+	//TODO
 	
+	//makeEmpty (skatīt piemēru no Sem2)
+	public void makeEmpty()
+	{
+		if(!isEmpty()) {
+			root = null;
+			counter = 0;
+			System.gc();
+		}
+	}
 	
-	//makeEmpty
 	//delete
 	
-
+	public void delete(Ttype element) throws Exception
+	{
+		if(isEmpty())
+		{
+			throw new Exception("BST is empty and it is not possible to delete element");
+		}
+		
+		if(!search(element)) //ja nebūs atrasts elements, ko grib dzest
+		{
+			throw new Exception("Element doesn't exists in BST and it is not possible to delete it");
+		}
+		
+		deleteHelper(element, root);
+		
+		
+	}
+	private void deleteHelper(Ttype element, MyBSTNode<Ttype> currentNode)
+	{
+		//TODO samazinār coutner, pie atrastā elementa
+		//ja sakritīs, tad dzēsīsim
+		if(element.equals(currentNode.getElement()))
+		{
+			//ja currentNode mezgls ir kā lapa
+			if(currentNode.getLeftCh() == null
+					&& currentNode.getRightCh() ==null)
+			{
+				MyBSTNode<Ttype> parentOfCurrentNode = currentNode.getParent();
+				
+				//jānoņem saite uz kreiso bērnu
+				if(parentOfCurrentNode.getLeftCh().getElement().equals(element))
+				{
+					parentOfCurrentNode.setLeftCh(null);
+				}
+				else if
+				(parentOfCurrentNode.getRightCh().getElement().equals(element)) {
+					parentOfCurrentNode.setRightCh(null);
+				}
+				
+			}
+			
+			
+			//ja currentNode mezglam ir tikai viens bērns 
+			//gadījums, kad ir tikai labais bērns
+			else if(currentNode.getLeftCh()== null 
+					&& currentNode.getRightCh() != null)
+			{
+				MyBSTNode<Ttype> parentOfCurrentNode = currentNode.getParent();
+				MyBSTNode<Ttype> rightChildOCurrentNode = currentNode.getRightCh();
+				
+				parentOfCurrentNode.setRightCh(rightChildOCurrentNode);
+				rightChildOCurrentNode.setParent(parentOfCurrentNode);
+			}
+			//ir tikai kreisais bērns
+			else if(currentNode.getLeftCh() != null 
+					&& currentNode.getRightCh() == null)
+			{
+				MyBSTNode<Ttype> parentOfCurrentNode = currentNode.getParent();
+				MyBSTNode<Ttype> leftChildOCurrentNode = currentNode.getLeftCh();
+				
+				parentOfCurrentNode.setRightCh(leftChildOCurrentNode);
+				leftChildOCurrentNode.setParent(parentOfCurrentNode);
+			}
+			//ja currentNode mezglam ir abi bērni 
+			else if(currentNode.getLeftCh() != null
+					&& currentNode.getRightCh() != null)
+			{
+				//TODO pabeigt
+			}
+		}
+		else
+		{
+			//ja elements ir lielāks par currentNode elementu
+			if(    ((Comparable)element).compareTo(currentNode.getElement()) == 1)
+			{
+				//izsaucam rekursiju, tikai tad, ja labajā pusē ir piesiastīts bērns
+				if(currentNode.getRightCh() != null)
+				{
+					deleteHelper(element, currentNode.getRightCh());
+				}
+			}
+			else if(((Comparable)element).compareTo(currentNode.getElement()) == -1) {
+				//izsaucam rekursiju, tikai tad, ja kreisajā pusē ir piesiastīts bērns
+				if(currentNode.getLeftCh() != null)
+				{
+					deleteHelper(element, currentNode.getLeftCh());
+				}
+			}
+				
+		}
+	}
+	
+	//izveidot deleteHelper funkciju
+	//atrast elementu, ko dzēst 
+	//    ja ta ir lapa tad dzešam to
+	//    ja atrsatasjam elementa mezglam ir tikai viens bērns,
+	//    tad sīm bērnam nomainam veācuku uz atsratā bērna vecaku un arī otrādi 
+	
+    //    ja ir abi bērni
+	//       jāatrod kreisasi tuvākais mazbērns via labais tuvakais mazbērns
+	//       un ar to jamaina vietam elementa vērtība  
 }

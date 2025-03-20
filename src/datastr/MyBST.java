@@ -96,5 +96,71 @@ public class MyBST <Ttype> {
 		
 	}
 	
+	
+	//TODO
+	//search
+	public boolean search(Ttype element) throws Exception
+	{
+		if(element == null)
+		{
+			throw new Exception("Element can not be null");
+		}
+		
+		if(isEmpty())
+		{
+			throw new Exception("BST is empty and it is not possible to search element");
+		}
+		
+		boolean result = searchHelper(element, root);
+		return result;
+		
+		
+	}
+	
+	private boolean searchHelper(Ttype element, MyBSTNode<Ttype> currentNode)
+	{
+		if(element.equals(currentNode.getElement()))
+		{
+			return true;
+		}
+
+		else
+		{
+			//ja meklētais elements ir lielāks par currentNode elementu, tad jāpavirzas uz labo pusi
+			if(    ((Comparable)element).compareTo(currentNode.getElement()) == 1)
+			{
+				//pārbaudām, vai eksiste  mezgls labājā pusē. Ja neeksistē, tad varam drošī pateikt, ka elements nav atrasts, jo esam jau nokļuvisi pie vietas, kur tam būtu jābūt, bet nav
+				if(currentNode.getRightCh() == null)
+				{
+					return false;
+				}
+				else//eksistē bērna mezgls labajā pusē
+				{
+					return searchHelper(element, currentNode.getRightCh());
+				}
+			}//ja meklētais elements ir mazāks par currentNode elementu
+			else if( ((Comparable)element).compareTo(currentNode.getElement()) == -1)
+			{
+				//pārbaudām, vai eksiste  mezgls kreisais pusē. Ja neeksistē, tad varam drošī pateikt, ka elements nav atrasts, jo esam jau nokļuvisi pie vietas, kur tam būtu jābūt, bet nav
+				if(currentNode.getLeftCh() == null)
+				{
+					return false;
+				}
+				else//eksistē bērna mezgls kreisajā pusē
+				{
+					return searchHelper(element, currentNode.getLeftCh());
+				}
+			}
+		}
+	
+		
+		return false;
+		
+		
+	}
+	//print
+	//makeEmpty
+	//delete
+	
 
 }

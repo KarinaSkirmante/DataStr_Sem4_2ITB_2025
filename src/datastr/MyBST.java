@@ -159,6 +159,43 @@ public class MyBST <Ttype> {
 		
 	}
 	//print
+	public void print() throws Exception{
+		if(isEmpty())
+		{
+			throw new Exception("BST is empty and it is not possible to print elements");
+		}
+		
+		printHelper(root);
+	}
+	
+	
+	//TODO uztaisīt funkcijas arī postfiksās un gala apstaigāšanas gadījumiem
+	private void printHelper(MyBSTNode<Ttype> currentNode) {
+		//PREFIX apstaigāsana Sakne-kreisais bēŗns - labais bērns
+		System.out.println("P -> " + currentNode.getElement());
+		
+		//ja eksistē kreisais bērns
+		if(currentNode.getLeftCh() != null)
+		{
+			System.out.println(
+			"Left ch -> " + currentNode.getLeftCh().getElement() 
+			+ " (" + currentNode.getElement() + ")");
+			printHelper(currentNode.getLeftCh());
+		}
+		
+		//ja eksistē labais bērns
+		if(currentNode.getRightCh() != null)
+		{
+			System.out.println(
+			"Right ch -> " + currentNode.getRightCh().getElement() 
+			+ " (" + currentNode.getElement() + ")");
+			printHelper(currentNode.getRightCh());
+		}
+		
+		
+	}
+	
+	
 	//makeEmpty
 	//delete
 	

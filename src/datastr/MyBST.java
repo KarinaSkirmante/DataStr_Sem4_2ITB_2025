@@ -29,5 +29,72 @@ public class MyBST <Ttype> {
 		return counter;
 	}
 	
+	public void add(Ttype element) throws Exception {
+		if(element == null)
+		{
+			throw new Exception("Element can not be null");
+		}
+		
+		if(isEmpty())
+		{
+			MyBSTNode<Ttype> newNode = new MyBSTNode(element);
+			root = newNode;
+			counter++;
+		}
+		else
+		{
+			if(isFull())//iespējams, nekad neizpildīsies, jo OS pati nodrosina, ka RAM ir pietiekoši vietas
+			{
+				throw new Exception("BST is full");
+			}
+			
+			addHelper(element, root);
+		}
+
+		
+	}
+	
+	private void addHelper(Ttype element, MyBSTNode<Ttype> currentNode) {
+		//pābraudam, pa kuru pusi elements tiks pievienots
+		
+		//ja elements ir lielāks par currentNode elementu, tad jāpavirzas uz labo pusi
+		if(    ((Comparable)element).compareTo(currentNode.getElement()) == 1)
+		{
+			//ja pa neksiste labais bērns, tad var veidot jauno mezglu un pielipināt ka labo bērnu
+			if(currentNode.getRightCh()==null)
+			{
+				MyBSTNode<Ttype> newNode = new MyBSTNode<>(element);
+				currentNode.setRightCh(newNode);
+				newNode.setParent(currentNode);
+				counter++;
+				
+			}
+			//ja eksistē
+			else
+			{
+				addHelper(element, currentNode.getRightCh());
+			}
+			
+		}
+		
+		//ja elements ir mazaks par currentNode elementu, tad jāpavirzas uz kreiso pusi
+		else if( ((Comparable)element).compareTo(currentNode.getElement()) == -1)
+		{
+			//neeksiste kreisais bērns, tad izveidojam jaunu mezglu un pievienjam ka kreiso
+			if(currentNode.getLeftCh() == null)
+			{
+				MyBSTNode<Ttype> newNode = new MyBSTNode<>(element);
+				currentNode.setLeftCh(newNode);
+				newNode.setParent(currentNode);
+				counter++;
+			}
+			else//ja tomēr jau eksiste kreisais bērns
+			{
+				addHelper(element, currentNode.getLeftCh());
+			}
+		}
+		
+	}
+	
 
 }
